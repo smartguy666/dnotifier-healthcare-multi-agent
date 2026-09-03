@@ -13,6 +13,21 @@ Medical Knowledge Agent
 Appointment Agent
 Notification Agent
 ```
+## Demo
+
+**1. Empty state — patient hasn't sent a message yet**
+
+![Empty chat with Simulate Patient button](./screenshots/01-empty-chat.png)
+
+**2. Message sent — agents fanning out in real time**
+
+![Patient message sent, Agent Activity panel live-updating](./screenshots/02-message-sent-agents-running.png)
+
+**3. Workflow completed — full Event Stream + assistant summary**
+
+![All five agents completed, full event stream, assistant reply in chat](./screenshots/03-workflow-completed.png)
+
+Each screenshot corresponds to a real DNotifier `Workflow` run: Triage Agent runs first, then Symptoms / Medical Knowledge / Appointment agents fan out in parallel, and the Notification Agent fires last — all visible live in the **Agent Activity** panel and **Event Stream**, streamed over DNotifier's realtime transport.
 
 ## What this repo proves about DNotifier
 
