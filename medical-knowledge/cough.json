@@ -1,0 +1,9 @@
+{
+  "symptom": "cough",
+  "information": [
+    "A cough lasting more than a week can accompany many respiratory conditions.",
+    "A dry cough versus a productive (phlegm-producing) cough can suggest different causes.",
+    "A cough combined with breathing difficulty should be reviewed by a clinician promptly."
+  ],
+  "requiresClinicianReview": false
+}

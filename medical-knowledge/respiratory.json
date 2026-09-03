@@ -1,0 +1,9 @@
+{
+  "symptom": "difficulty breathing",
+  "information": [
+    "Shortness of breath can range from mild exertional breathlessness to a medical emergency.",
+    "Breathing difficulty combined with fever and cough is a pattern worth prompt clinical review.",
+    "Sudden or severe breathing difficulty is an emergency warning sign — see emergency-guidelines."
+  ],
+  "requiresClinicianReview": true
+}
