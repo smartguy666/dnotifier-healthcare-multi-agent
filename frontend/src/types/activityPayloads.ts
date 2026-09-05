@@ -1,14 +1,15 @@
 // frontend/src/types/activityPayloads.ts
-// Local copy of packages/shared/types/activityPayloads.ts — see domain.ts note.
+// Local copy of backend's activityPayloads.ts — see domain.ts note.
 
-import type { TriageResult, SymptomsAnalysis, KnowledgeResult, AppointmentOption, NotificationPayload } from "./domain";
+import type { NotificationPayload } from "./domain";
 
 export type AgentName =
   | "triage-agent"
   | "symptoms-agent"
   | "medical-knowledge-agent"
   | "appointment-agent"
-  | "notification-agent";
+  | "notification-agent"
+  | "receptionist-agent";
 
 export type AgentStatus = "started" | "completed" | "failed";
 
@@ -17,7 +18,7 @@ export interface AgentStatusPayload {
   sessionId: string;
   agent: AgentName;
   status: AgentStatus;
-  data?: TriageResult | SymptomsAnalysis | KnowledgeResult | { appointments: AppointmentOption[] } | NotificationPayload;
+  data?: unknown; // widened to match backend — payload shapes now vary per agent (receptionist turns, triage results, etc.)
   timestamp: number;
 }
 

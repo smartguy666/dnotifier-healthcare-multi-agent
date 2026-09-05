@@ -8,8 +8,8 @@ export const httpNotifier = new DNotifier({
   secret: DNOTIFIER_SECRET,
   transport: "http",
   userId: ORCHESTRATOR_USER_ID,
-  url: undefined,            // required key per installed .d.ts; not used for http transport
-  WebSocketImpl: undefined,  // required key per installed .d.ts; not used for http transport
+  url: undefined,            
+  WebSocketImpl: undefined,  
   onConnected: (): void => console.log("[http] connected"),
   onMessage: (msg: DNotifierIncomingMessage): void => {},
   onDisconnected: (info: DNotifierDisconnectInfo): void => console.log("[http] disconnected", info),

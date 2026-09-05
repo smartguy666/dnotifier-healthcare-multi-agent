@@ -1,9 +1,0 @@
-{
-  "symptom": "fever",
-  "information": [
-    "Fever is often the body's natural response to infection.",
-    "Rest and fluids are commonly recommended for mild fever.",
-    "Persistent fever above 39°C (102°F) or lasting more than 3 days warrants clinician review."
-  ],
-  "requiresClinicianReview": false
-}

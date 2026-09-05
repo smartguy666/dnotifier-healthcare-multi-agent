@@ -8,7 +8,7 @@ import type { HealthcareWorkflowState } from "../../../packages/shared/types/wor
 export const appointmentAgent = DNotifier.defineAgent({
   name: "appointment-agent",
   async run(ctx) {
-    const sessionId = ctx.senderId; // propagated unchanged from runWorkflow({ senderId: sessionId })
+    const sessionId = ctx.senderId; 
     const triage = ctx.input as TriageResult;
 
     await broadcastActivity(sessionId, {

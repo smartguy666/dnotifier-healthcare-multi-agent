@@ -11,6 +11,7 @@ export let wsReady = new Promise<void>((resolve) => {
 });
 
 const RECONNECT_DELAY_MS = 3000;
+let reconnecting = false; 
 
 export const wsNotifier = new DNotifier({
   appId: DNOTIFIER_APP_ID,
@@ -21,6 +22,7 @@ export const wsNotifier = new DNotifier({
   WebSocketImpl: WebSocket,
   onConnected: (): void => {
     console.log("[ws] connected");
+    reconnecting = false;
     resolveWsReady();
   },
   onMessage: (msg: DNotifierIncomingMessage): void => {
@@ -32,12 +34,14 @@ export const wsNotifier = new DNotifier({
     }
   },
   onDisconnected: (info: DNotifierDisconnectInfo): void => {
-    console.error("[ws] disconnected, will attempt reconnect:", info);
+    console.error("[ws] disconnected:", info);
 
-    // DNotifier's own docs are explicit that it does NOT auto-reconnect —
-    // without this, every wsNotifier.send() after any disconnect (idle,
-    // network blip, etc.) fails with "Not connected" permanently until the
-    // whole process is restarted, which is exactly what we just observed.
+    if (reconnecting) {
+      console.log("[ws] reconnect already in progress, skipping duplicate attempt");
+      return;
+    }
+    reconnecting = true;
+
     wsReady = new Promise<void>((resolve) => {
       resolveWsReady = resolve;
     });
@@ -47,6 +51,7 @@ export const wsNotifier = new DNotifier({
         await wsNotifier.connect();
       } catch (err) {
         console.error("[ws] reconnect attempt failed:", err);
+        reconnecting = false; 
       }
     }, RECONNECT_DELAY_MS);
   },

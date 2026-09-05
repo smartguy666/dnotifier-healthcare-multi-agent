@@ -1,42 +1,28 @@
 // lib/api.ts
 const API_HOST = process.env.NEXT_PUBLIC_BACKEND_API_URL ?? "http://localhost:3001";
 
-export interface WorkflowApiResult {
-  sessionId: string;
-  result: {
-    triage: { urgency: string; symptoms: string[]; requiresMedicalReview: boolean };
-    symptoms: { symptoms: string[]; duration: string; severity: string };
-    knowledge: { information: string[]; requiresClinicianReview: boolean };
-    appointments: { appointments: { doctor: string; time: string }[] };
-    notification: { message: string } | null;
-  };
+export interface ReceptionistApiResult {
+  reply: string;
+  appointment: { doctor: string; time: string } | null;
   executionId?: string;
 }
 
-export async function sendMessage(sessionId: string, message: string): Promise<WorkflowApiResult> {
+export async function sendMessage(sessionId: string, message: string): Promise<ReceptionistApiResult> {
   const res = await fetch(`${API_HOST}/api/message`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ sessionId, message }),
   });
-
-  if (!res.ok) {
-    throw new Error(`Request failed: ${res.status}`);
-  }
-
+  if (!res.ok) throw new Error(`Request failed: ${res.status}`);
   return res.json();
 }
 
-export async function simulatePatient(sessionId: string): Promise<WorkflowApiResult> {
+export async function simulatePatient(sessionId: string): Promise<ReceptionistApiResult & { sessionId: string }> {
   const res = await fetch(`${API_HOST}/api/simulate`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ sessionId }),
   });
-
-  if (!res.ok) {
-    throw new Error(`Simulate request failed: ${res.status}`);
-  }
-
+  if (!res.ok) throw new Error(`Simulate request failed: ${res.status}`);
   return res.json();
 }

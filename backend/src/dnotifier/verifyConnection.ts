@@ -10,13 +10,11 @@ import type { DNotifierIncomingMessage, DNotifierDisconnectInfo } from "./types.
 const TEST_RECEIVER_ID = "verify-receiver";
 
 async function verify() {
-  await connectAll(); // now genuinely waits for ws handshake-ack, not just socket-open
+  await connectAll(); 
 
   const limits = httpNotifier.getPlanLimits();
   console.log("[verify] plan limits:", limits);
 
-  // Same race condition applies here: connect() resolves on socket-open,
-  // onConnected fires later on the real handshake-ack. Gate on that explicitly.
   let resolveReceiverReady: () => void;
   const receiverReady = new Promise<void>((resolve) => {
     resolveReceiverReady = resolve;
@@ -58,7 +56,7 @@ async function verify() {
   setTimeout(() => {
     console.log("[verify] done, exiting");
     process.exit(0);
-  }, 8000); // bumped from 2000 to rule out network latency before suspecting a real bug
+  }, 8000); 
 }
 
 verify().catch((err) => {

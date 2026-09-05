@@ -16,9 +16,6 @@ export const notificationAgent = DNotifier.defineAgent({
   async run(ctx) {
     const input = ctx.input as NotificationAgentInput;
 
-    // input.sessionId is already explicit here (unlike the other four agents,
-    // which fall back to ctx.senderId) — this agent's caller always passes it
-    // directly, so we use that rather than reaching for ctx.senderId.
     const sessionId = input?.sessionId;
 
     await broadcastActivity(sessionId, {
@@ -34,10 +31,11 @@ export const notificationAgent = DNotifier.defineAgent({
       });
     }
 
-    const message =
-      input.triage.urgency === "high"
-        ? "Your symptoms indicate this needs prompt clinician review. Please see the recommended appointments."
-        : "New appointment options are available based on your triage results.";
+        const message = input.triage.urgency === "high"
+      ? "Your symptoms indicate this needs prompt clinician review. Please see the recommended appointments."
+      : input.appointments.appointments.length > 0
+      ? `Your appointment with ${input.appointments.appointments[0].doctor} at ${input.appointments.appointments[0].time} is confirmed.`
+      : "New appointment options are available based on your triage results.";
 
     const payload: NotificationPayload = {
       sessionId,
@@ -50,7 +48,7 @@ export const notificationAgent = DNotifier.defineAgent({
         senderId: ORCHESTRATOR_USER_ID,
         receiverId: ORCHESTRATOR_USER_ID,
         receiverIds: undefined,
-        data: { type: "notification", ...payload }, // payload already includes sessionId
+        data: { type: "notification", ...payload }, 
       });
     } catch (err) {
       console.error("[notification-agent] send() failed:", err);

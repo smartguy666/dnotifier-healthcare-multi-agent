@@ -1,10 +1,11 @@
 // dnotifier/activityBroadcaster.ts
-import { wsNotifier } from "./wsClient.js";
+import { wsNotifier, wsReady } from "./wsClient.js";
 import { ORCHESTRATOR_USER_ID } from "./env.js";
 import type { BroadcastableActivityPayload } from "../../../packages/shared/types/activityPayloads.js";
 
 export async function broadcastActivity(sessionId: string, payload: BroadcastableActivityPayload): Promise<void> {
   try {
+    await wsReady;
     await wsNotifier.send({
       senderId: ORCHESTRATOR_USER_ID,
       receiverId: ORCHESTRATOR_USER_ID,

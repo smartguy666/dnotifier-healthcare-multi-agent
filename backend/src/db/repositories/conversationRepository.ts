@@ -9,7 +9,8 @@ export async function appendMessage(
   await Conversation.updateOne(
     { sessionId },
     { $push: { messages: { role, text, timestamp: new Date() } } },
-    { upsert: true } // creates the conversation doc on first message
+    { upsert: true } 
+    
   );
 }
 

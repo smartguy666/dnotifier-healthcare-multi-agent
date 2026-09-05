@@ -1,7 +1,5 @@
 // dnotifier/types.ts
-// The installed @dnotifier-realtime/dnotifier .d.ts does not export any
-// message/disconnect types (only Agent/Workflow/etc). These are local
-// convenience types based on the documented runtime shape, not SDK exports.
+
 export interface DNotifierIncomingMessage {
   metadata: {
     id?: string;

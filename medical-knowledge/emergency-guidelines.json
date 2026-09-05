@@ -1,9 +1,0 @@
-{
-  "symptom": "emergency-guidelines",
-  "information": [
-    "Severe or worsening difficulty breathing, chest pain, or bluish lips/face are emergency warning signs.",
-    "This assistant provides general decision support only and does not diagnose or replace a clinician.",
-    "If symptoms are severe or rapidly worsening, seek emergency care immediately rather than waiting for a scheduled appointment."
-  ],
-  "requiresClinicianReview": true
-}
