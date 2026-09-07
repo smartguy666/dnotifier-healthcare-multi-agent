@@ -18,6 +18,7 @@ export default function Page() {
   const [chat, setChat] = useState<ChatMessage[]>([]);
   const [sending, setSending] = useState(false);
   const [simulating, setSimulating] = useState(false);
+  const [mobileTab, setMobileTab] = useState<"chat" | "activity">("chat");
 
   const now = () => new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
 
@@ -48,9 +49,37 @@ export default function Page() {
     }
   };
 
-    return (
-    <main className="h-[100dvh] bg-slate-50 p-3 sm:p-4 flex flex-col gap-3 md:grid md:grid-cols-[2fr_1fr] md:gap-4 md:h-screen overflow-hidden">
-      <div className="flex flex-col gap-3 h-[60%] md:h-auto min-h-0">
+  return (
+    <main className="h-[100dvh] bg-slate-50 flex flex-col md:grid md:grid-cols-[2fr_1fr] md:gap-4 md:p-4 md:h-screen overflow-hidden">
+      {/* Mobile-only tab switcher */}
+      <div className="flex md:hidden border-b border-slate-200 bg-white shrink-0">
+        <button
+          onClick={() => setMobileTab("chat")}
+          className={`flex-1 py-2.5 text-sm font-medium ${
+            mobileTab === "chat" ? "text-teal-600 border-b-2 border-teal-600" : "text-slate-400"
+          }`}
+        >
+          Chat
+        </button>
+        <button
+          onClick={() => setMobileTab("activity")}
+          className={`flex-1 py-2.5 text-sm font-medium relative ${
+            mobileTab === "activity" ? "text-teal-600 border-b-2 border-teal-600" : "text-slate-400"
+          }`}
+        >
+          Agent Activity
+          {isConnected && (
+            <span className="absolute top-2 right-[30%] w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          )}
+        </button>
+      </div>
+
+      {/* Chat column */}
+      <div
+        className={`flex-col gap-3 min-h-0 flex-1 p-3 sm:p-4 md:p-0 md:flex ${
+          mobileTab === "chat" ? "flex" : "hidden"
+        }`}
+      >
         <button
           onClick={handleSimulate}
           disabled={simulating}
@@ -62,7 +91,13 @@ export default function Page() {
           <ChatPanel messages={chat} onSend={handleSend} sending={sending} />
         </div>
       </div>
-      <div className="h-[40%] md:h-auto min-h-0">
+
+      {/* Agent Activity column */}
+      <div
+        className={`min-h-0 flex-1 p-3 sm:p-4 md:p-0 md:block ${
+          mobileTab === "activity" ? "block" : "hidden"
+        }`}
+      >
         <AgentActivityPanel messages={messages} isConnected={isConnected} />
       </div>
     </main>
